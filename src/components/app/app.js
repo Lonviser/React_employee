@@ -19,58 +19,50 @@ class App extends Component {
             ],
             term: '', 
             filter: 'all'
-        }
+        };
         this.maxId = 4;
     }
 
     deleteItem = (id) => {
-        this.setState(({data}) => {
-            return {
-                data: data.filter(item => item.id !== id)
-            }
-        })
+        this.setState(({data}) => ({
+            data: data.filter(item => item.id !== id)
+        }));
     }
 
-    // Да, пока могут добавляться пустые пользователи. Мы это еще исправим
     addItem = (name, salary) => {
         const newItem = {
-            name, 
+            name,
             salary,
             increase: false,
             rise: false,
             id: this.maxId++
-        }
-        this.setState(({data}) => {
-            const newArr = [...data, newItem];
-            return {
-                data: newArr
-            }
-        });
+        };
+        this.setState(({data}) => ({
+            data: [...data, newItem]
+        }));
     }
 
     onToggleProp = (id, prop) => {
         this.setState(({data}) => ({
             data: data.map(item => {
                 if (item.id === id) {
-                    return {...item, [prop]: !item[prop]}
+                    return {...item, [prop]: !item[prop]};
                 }
                 return item;
             })
-        }))
+        }));
     }
 
-    searchEmp = (items, term) =>{
-      if(term.length === 0) {
-        return items;
-      }
-      return items.filter(item => {
-        return item.name.indexOf(term) > -1 
-      })
+    searchEmp = (items, term) => {
+        if (term.length === 0) {
+            return items;
+        }
+        return items.filter(item => item.name.indexOf(term) > -1);
     }
 
-  onUpdateSearch  = (term) => {
-    this.setState({term});
-  }
+    onUpdateSearch = (term) => {
+        this.setState({term});
+    }
 
     filterPost = (items, filter) => {
         switch (filter) {
@@ -79,7 +71,7 @@ class App extends Component {
             case 'moreThen1000':
                 return items.filter(item => item.salary > 1000);
             default:
-                return items
+                return items;
         }
     }
 
@@ -89,8 +81,8 @@ class App extends Component {
 
     render() {
         const {data, term, filter} = this.state;
-        const employees = this.state.data.length;
-        const increased = this.state.data.filter(item => item.increase).length;
+        const employees = data.length;
+        const increased = data.filter(item => item.increase).length;
         const visibleData = this.filterPost(this.searchEmp(data, term), filter);
 
         return (
